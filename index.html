@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Document</title>
+
+<style>
+          canvas {
+  width: 800px;
+  height: 800px;
+  border: 1px solid red;
+              }
+</style>
+</head>
+<body>
+          <canvas width="800" height="800" ></canvas>
+
+          <script>
+
+                    // im adding GlslCanvas library to make it easy
+// https://github.com/patriciogonzalezvivo/glslCanvas
+
+const canvas = document.querySelector("canvas")
+const sandbox = new GlslCanvas(canvas)
+
+const frag = `
+  #ifdef GL_ES
+  precision mediump float;
+  #endif
+  
+  // imported from GlslCanvas  
+  uniform vec2 u_resolution;
+  uniform float u_time;
+   
+  // a ball is a type of object
+  struct Ball {
+  	float radius;
+    vec2 position;
+    vec3 color;
+  };
+  
+  // how far is the ball from the current pixel
+  float d(Ball ball, vec2 uv) {
+    return ball.radius / length(uv - ball.position);
+  }
+  
+  void main() {
+    // pick the current pixel
+    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+    
+    // set up our balls
+    Ball ball1;
+    ball1.radius = 0.1;
+    ball1.position = vec2(
+      0.5 + 0.2 * sin(u_time * 0.4), 
+      0.5 + 0.2 * sin(u_time * 0.3)
+    );
+    ball1.color = vec3(0.0, 0.2, 1.0);
+    
+    Ball ball2;
+    ball2.radius = 0.1;
+    ball2.position = vec2(
+      0.5 + 0.2 * sin(u_time * 1.2), 
+      0.5 + 0.2 * sin(u_time * 0.7)
+    );
+    ball2.color = vec3(1.0, 0.4, 0.2);
+    
+    Ball ball3;
+    ball3.radius = 0.2;
+    ball3.position = vec2(
+      0.5 + 0.3 * sin(u_time * 0.1), 
+      0.5 + 0.2 * sin(u_time * 0.7)
+    );
+    ball3.color = vec3(0.0, 1.0, 0.2);
+    
+    // calc the distances for each pixel
+    float d1 = d(ball1, uv);
+    float d2 = d(ball2, uv);
+    float d3 = d(ball3, uv);
+    
+    // add distances
+    float total = d1 + d2 + d3;
+    
+    // make color based on balls and how far away
+    vec3 color = (ball1.color * d1 + ball2.color * d2 + ball3.color * d3) / total;
+    
+    // add a threshold to give an edge, 3.0 looks nice
+    if (total > 3.0) {
+      gl_FragColor = vec4(color, 1.0);
+    } else {
+      // black background otherwise
+      gl_FragColor = vec4(0.1, 0.1, 0.1, 1.0);
+    }
+  }
+`
+
+sandbox.load(frag)
+          </script>
+</body>
+</html>

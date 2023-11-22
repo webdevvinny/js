@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Suprise Message</title>
+
+          <style>
+                    .form-container{
+                              width: 100%;
+                              max-width: 400px;
+                              min-width: 400px;
+                              border: 2px solid red;
+                              border-radius: 20px;
+                              padding: 20px;
+                              display: flex;
+                              align-items: center;
+                              flex-direction: column;
+                              position: relative;
+                              background-color: lightgreen;
+                              scale: 0;
+                              display: none;
+                    }
+
+                    .display-the-form{
+                              display:  flex;
+                              scale: 1;
+                              animation: displayForm 5s;
+                    }
+
+                    @keyframes displayForm{
+                              from{
+                                        scale: 0;
+                              }
+                              to{
+                                        scale: 1;
+                              }
+                    }
+
+                    .remove-the-form{
+                              animation: remove-form 5s;
+                              display: none;
+                    }
+
+                    @keyframes remove-form {
+                              from{
+                                        scale: 1;
+                              }
+                              to{
+                                        scale: 0;
+                                        
+                              }
+                    }
+
+                    button{
+                              padding: 10px;
+                              font-size: 20px;
+                              font-weight: bold;
+                              color: blueviolet;
+                              background-color: brown;
+                              border-radius: 20px;
+                    }
+
+                    button:hover{
+                              cursor: pointer;
+                    }
+
+                    #displayForm{
+                              position: absolute;
+                              top: 20px;
+                    }
+
+                    #displayForm{
+                              z-index: 1;
+                              transform: translate(150%, 150%);
+                    }
+          </style>
+</head>
+<body>
+          
+          <div class="pop-up-container">
+                    <div class="display-button">
+
+                              <div class="form-container">
+                                        <label for="name">Enter your name:</label><br/>
+                                        <input type="text" name="name" id="fullName" placeholder="Elon Musk"/> <br/>
+                                        <label for="mail">Enter your email: </label> <br/>
+                                        <input type="email" name="mail" id="email" placeholder="myemail@gmail.com"> <br/>
+                                        <label for="password">Enter password: </label> <br/>
+                                        <input type="password" name="password" id="password" >
+                                        <br>
+                                        <button type="button" id="submitButton">Submit!</button>
+                              </div>
+
+                              <button type="button" id="displayForm">Click Me!</button> <br>
+                             
+                    </div>
+          </div>
+
+
+          <script>
+                    document.querySelector('#displayForm').addEventListener('click', () => {
+                              document.querySelector('.form-container').classList.add('display-the-form');
+                              document.querySelector('#displayForm').style.display = 'none';
+                    })
+                    document.querySelector('#submitButton').addEventListener('click', () => {
+                               document.querySelector('.form-container').classList.remove('display-the-form');
+                              document.querySelector('.form-container').classList.add('remove-the-form');
+                              document.querySelector('#displayForm').style.display = 'block';
+                    })
+          </script>
+</body>
+</html>
