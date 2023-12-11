@@ -1,30 +1,25 @@
 
+document.getElementsByClassName('sign-up-button')[0].addEventListener('click', displayForm);
 
-document.getElementById('load').onclick = () => {
-  let element = document.getElementsByClassName('rotate-border')[0];
-  element.style.display = 'block';
+function displayForm(){
+    document.getElementsByClassName('pop-up-form')[0].classList.add('form-display');
+    document.getElementsByClassName('pop-up-form')[0].style.display = 'flex';
+
+    document.getElementsByClassName('sign-up-button')[0].style.display = 'none';
+    document.querySelector('p').innerHTML = 'Button Clicked';
 }
 
 
-function rotateElement () {
-  let element =  document.getElementsByClassName('rotate-border')[0];
+document.querySelector('.submit-button').onclick = function () {
+    let h = document.querySelector('.h5');
+    h.style.display = 'block';
+    document.getElementsByClassName('sign-up-button')[0].style.display = 'none';
 
-let clearInt = setInterval(
-    () => {
-        element.classList.add('remove-border');
-       clearInterval(clearInt);
-    }, 2000
-
-)
-
-     setInterval(
-    () => {
-        element.classList.remove('rotate-border');
-
-    }, 4020
-)
+    setInterval(
+        () => {
+            h.style.display = 'none';
+        },
+        5000
+    )
 
 }
-
-
-rotateElement();
