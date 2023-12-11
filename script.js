@@ -7,6 +7,8 @@ function displayForm(){
 
     document.getElementsByClassName('sign-up-button')[0].style.display = 'none';
     document.querySelector('p').innerHTML = 'Button Clicked';
+
+    document.querySelector('.pop-up-container').style.backgroundColor = "rgba(230, 109, 12, 0.5)";
 }
 
 
@@ -20,6 +22,15 @@ document.querySelector('.submit-button').onclick = function () {
             h.style.display = 'none';
         },
         5000
+    );
+
+    document.getElementsByClassName('pop-up-form')[0].classList.add('form-remove');
+
+    setInterval(
+        () => {
+            document.getElementsByClassName('pop-up-form')[0].style.display = 'none';
+        }
+        , 1000
     )
 
 }
